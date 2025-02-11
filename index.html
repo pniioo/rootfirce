@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RootForce Hacker Store</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            overflow-x: hidden;
+            user-select: none; /* Disable text selection */
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #splash-screen img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Main Content (Hidden Initially) */
+        #main-content {
+            display: none;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #000, #003300);
+            color: #00ff00;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2em;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 5px #00ff00;
+            cursor: pointer;
+        }
+
+        header p:hover {
+            color: #00cc00;
+        }
+
+        /* Text Slider Section */
+        .text-slider {
+            background-color: #111;
+            padding: 10px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            animation: slideIn 1s ease-in-out;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .text-slider marquee {
+            font-size: 1.2em;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Slider Section */
+        .slider {
+            position: relative;
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #00ff00;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* APK Gallery Section */
+        .apk-gallery {
+            padding: 20px;
+            background-color: #111;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        .apk-gallery h2 {
+            margin-bottom: 20px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .apk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .apk-item {
+            background-color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .apk-item:hover {
+            transform: scale(1.05);
+        }
+
+        .apk-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .apk-item h3 {
+            margin: 10px 0 0;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Hide Identification Section */
+        .hide-identification {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .hide-identification button {
+            background-color: #003300;
+            color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .hide-identification button:hover {
+            background-color: #005500;
+        }
+
+        .hide-identification .ip-box {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #111;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .hide-identification .ip-box p {
+            margin: 0;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Join Our Member Teams Section */
+        .join-team {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .join-team button {
+            background-color: #003300;
+            color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .join-team button:hover {
+            background-color: #005500;
+        }
+
+        .join-team .form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #111;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .join-team .form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            background-color: #000;
+            color: #00ff00;
+        }
+
+        .join-team .form button {
+            background-color: #003300;
+            color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .join-team .form button:hover {
+            background-color: #005500;
+        }
+
+        /* Hacking Animation */
+        .hacking-animation {
+            display: none;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .hacking-animation img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003300;
+            color: #00ff00;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            width: 100%;
+            border-top: 2px solid #00ff00;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1em;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Anti-Copy Warning */
+        #copy-warning {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Glow Effect */
+        .glow {
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <img src="https://media.tenor.com/thF-4X-idtEAAAAi/hack-hacker.gif" alt="Splash Screen">
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Header -->
+        <header>
+            <h1 class="glow">RootForce Hacker Store</h1>
+            <p class="glow" onclick="window.location.href='https://wa.me/+16415410923'">WhatsApp: +1 641 541 0923 | Buy all types of modding APKs like SMS, Call Forwarding, UPI Modification, and more!</p>
+        </header>
+
+        <!-- Text Slider Section -->
+        <div class="text-slider">
+            <marquee behavior="scroll" direction="left" scrollamount="10" loop="infinite">
+                UPI Bypass | Social Media Hacking | Number Details | Vehicle Tracking | Application Development | Virus Creation | and more...
+            </marquee>
+        </div>
+
+        <!-- Slider Section -->
+        <div class="slider">
+            <div class="slider-container">
+                <img src="https://via.placeholder.com/800x300?text=Image+1" alt="Slider Image 1">
+                <img src="https://via.placeholder.com/800x300?text=Image+2" alt="Slider Image 2">
+                <img src="https://via.placeholder.com/800x300?text=Image+3" alt="Slider Image 3">
+                <img src="https://via.placeholder.com/800x300?text=Image+4" alt="Slider Image 4">
+                <img src="https://via.placeholder.com/800x300?text=Image+5" alt="Slider Image 5">
+            </div>
+            <button class="slider-button prev" onclick="prevSlide()">&#10094;</button>
+            <button class="slider-button next" onclick="nextSlide()">&#10095;</button>
+        </div>
+
+        <!-- APK Gallery Section -->
+        <section class="apk-gallery">
+            <h2 class="glow">Available APKs</h2>
+            <div class="apk-grid">
+                <!-- APK items will be dynamically added here -->
+                <div class="apk-item" onclick="window.location.href='1apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 1">
+                    <h3>SMS Mod</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='2apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 2">
+                    <h3>Call Forwarding</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='3apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 3">
+                    <h3>Custom APK</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='4apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 4">
+                    <h3>VPN Mod</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='5apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 5">
+                    <h3>Game Hack</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='6apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 6">
+                    <h3>Ad Blocker</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='7apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 7">
+                    <h3>Theme Engine</h3>
+                </div>
+                <div class="apk-item" onclick="window.location.href='8apk.html'">
+                    <img src="https://via.placeholder.com/150" alt="APK 8">
+                    <h3>Root Tool</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hide Identification Section -->
+        <div class="hide-identification">
+            <button onclick="showFakeIP()">Hide Identification</button>
+            <div class="ip-box" id="ip-box">
+                <p>Your IP: <span id="fake-ip">192.168.1.1</span></p>
+            </div>
+        </div>
+
+        <!-- Join Our Member Teams Section -->
+        <div class="join-team">
+            <button onclick="openJoinForm()">Join Our Member Teams</button>
+            <div class="form" id="join-form">
+                <input type="text" id="tg-username" placeholder="Enter Your Telegram Username" required>
+                <button onclick="submitForm()">Submit</button>
+            </div>
+        </div>
+
+        <!-- Hacking Animation -->
+        <div class="hacking-animation" id="hacking-animation">
+            <img src="https://media1.tenor.com/m/J-w5FUWA17sAAAAC/hacker.gif" alt="Hacking Animation">
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="glow">Our servers are available 24/7. Contact us for custom APK designs, website designs, and more!</p>
+        </footer>
+
+        <!-- Anti-Copy Warning -->
+        <div id="copy-warning">Madarchod, Betichod, Copy-Paste Mat Kar!</div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Splash Screen Logic
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }, 3000); // 3 seconds delay
+
+        // Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider img');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            const sliderContainer = document.querySelector('.slider-container');
+            if (sliderContainer && slides.length > 0) {
+                sliderContainer.style.transform = `translateX(${-index * 100}%)`;
+            }
+        }
+
+        function nextSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Anti-Copy Feature
+        let copyAttempts = 0;
+        document.addEventListener('copy', (e) => {
+            e.preventDefault();
+            copyAttempts++;
+            if (copyAttempts >= 3) {
+                const warning = document.getElementById('copy-warning');
+                warning.style.display = 'block';
+                setTimeout(() => {
+                    warning.style.display = 'none';
+                }, 3000); // Hide warning after 3 seconds
+            }
+        });
+
+        // Hide Identification
+        function showFakeIP() {
+            const ipBox = document.getElementById('ip-box');
+            if (ipBox) {
+                ipBox.style.display = 'block';
+            }
+        }
+
+        // Join Our Member Teams
+        function openJoinForm() {
+            const joinForm = document.getElementById('join-form');
+            if (joinForm) {
+                joinForm.style.display = 'block';
+            }
+        }
+
+        function submitForm() {
+            const tgUsername = document.getElementById('tg-username').value;
+            if (tgUsername) {
+                const hackingAnimation = document.getElementById('hacking-animation');
+                if (hackingAnimation) {
+                    hackingAnimation.style.display = 'block';
+                }
+
+                // Simulate sending data to Telegram bot
+                setTimeout(() => {
+                    if (hackingAnimation) {
+                        hackingAnimation.style.display = 'none';
+                    }
+                    alert('Thank you for joining! We will contact you soon.');
+                }, 3000); // Simulate 3 seconds of processing
+            } else {
+                alert('Please enter your Telegram username.');
+            }
+        }
+    </script>
+</body>
+</html>
