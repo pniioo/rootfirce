@@ -87,6 +87,41 @@
             text-shadow: 0 0 5px #00ff00;
         }
 
+        /* Text Slider Section */
+        .text-slider {
+            background-color: #111;
+            padding: 10px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            animation: slideIn 1s ease-in-out;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .text-slider .slider-content {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen */
+            animation: slide 15s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .text-slider .slider-content span {
+            font-size: 1.2em;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            margin-right: 40px; /* Space between items */
+        }
+
         /* Slider Section */
         .slider {
             position: relative;
@@ -350,9 +385,15 @@
 
         <!-- Text Slider Section -->
         <div class="text-slider">
-            <marquee behavior="scroll" direction="left" scrollamount="10" loop="infinite">
-                UPI Bypass | Social Media Hacking | Number Details | Vehicle Tracking | Application Development | Virus Creation | and more...
-            </marquee>
+            <div class="slider-content">
+                <span>UPI Bypass</span>
+                <span>Social Media Hacking</span>
+                <span>Number Details</span>
+                <span>Vehicle Tracking</span>
+                <span>Application Development</span>
+                <span>Virus Creation</span>
+                <span>and more...</span>
+            </div>
         </div>
 
         <!-- Slider Section -->
@@ -473,8 +514,8 @@
             }
         }
 
-        // Auto-slide every 5 seconds
-        setInterval(nextSlide, 5000);
+        // Auto-slide every 1 seconds
+        setInterval(nextSlide, 1000);
 
         // Anti-Copy Feature
         let copyAttempts = 0;
